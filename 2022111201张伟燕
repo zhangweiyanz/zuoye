@@ -1,0 +1,60 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from astropy.io import fits 
+alist=fits.open('spec-55976-F5597612_sp08-188.fits.gz')
+
+a=alist[0].data
+flux=a[0]
+wave=a[2]
+
+redshift=alist[0].header['z']
+plt.figure(figsize=(15,4))
+plt.plot(wave,flux,color='black',linewidth=1)
+plt.xlim(3700,9100)
+plt.ylim(0,3250)
+plt.xlabel(r'$Wavelength (\AA)$',fontsize=14)
+plt.ylabel(r'$Flux\ Counts$',fontsize=14)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+plt.show()
+plt.figure(figsize=(13,4))
+
+plt.subplot(121)
+plt.plot(wave,flux,color='black',linewidth=1)
+# Hbeta
+linecenter=np.array([4863,4863])*(1+redshift)
+plt.plot(linecenter,[1000,1100],'-',color='red')
+plt.text(linecenter[0]-10,1200,r'$H\beta$',fontsize=18)
+# [OIII]
+linecenter=np.array([5007,5007])*(1+redshift)
+plt.plot(linecenter,[1000,1100],'-',color='red')
+plt.text(linecenter[0]-20,1200,r'$[OIII]$',fontsize=18)
+
+plt.xlim(4800,5100)
+plt.ylim(0,1490)
+plt.xlabel(r'$Wavelength (\AA)$',fontsize=14)
+plt.ylabel(r'$Flux\ Counts$',fontsize=14)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+
+# ---------------
+
+plt.subplot(122)
+plt.plot(wave,flux,color='black',linewidth=1)
+# Hbeta
+linecenter=np.array([6563,6563])*(1+redshift)
+plt.plot(linecenter,[3000,3200],'-',color='red')
+plt.text(linecenter[0]-10,3250,r'$H\alpha$',fontsize=18)
+# [OIII]
+linecenter=np.array([6584,6584])*(1+redshift)
+plt.plot(linecenter,[2000,2200],'-',color='red')
+plt.text(linecenter[0]-10,2300,r'$[NII]$',fontsize=18)
+
+plt.xlim(6450,6750)
+plt.ylim(0,3600)
+plt.xlabel(r'$Wavelength (\AA)$',fontsize=14)
+plt.ylabel(r'$Flux\ Counts$',fontsize=14)
+plt.xticks(fontsize=14)
+plt.yticks(fontsize=14)
+
+plt.show()
